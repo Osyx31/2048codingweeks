@@ -105,11 +105,28 @@ def grid_to_string_with_size_and_theme(grid,theme,n):
     a+=" /n"
     for j in range(n):
         for i in range(n):
-            a+="|" + (m-len(str(grid[j][i]))//2 + m-len(str(grid[j][i]))%2)*" "+ theme[grid[j][i]] +(m-len(str(grid[j][i]))//2)* " "
+            a+="|" + ((m-len(str(grid[j][i])))//2 )*" "+ theme[grid[j][i]] +((m-len(str(grid[j][i])))//2+ (m-len(str(grid[j][i])))%2)* " "
         a+="|/n"
         for i in range(n):
             a+=" "+ (m)*"="
         a+=" /n"
     return a
 
+def read_player_command():
+    move = input("Entrez votre commande (g (gauche), d (droite), h (haut), b (bas)):")
+    if move in ['g','d','h','b']:
+        return move
+    else:
+        print('commande incorrecte')
+        read_player_command()
 
+def read_size_grid():
+    size = input("choisissez la taille de la grille :")
+    return size
+
+def read_theme_grid():
+    theme = input("choisissez le theme (Defaut : 0, chemistry : 1, alphabet : 2):")
+    return theme
+
+def test_is_full_grid(grid):
+    return get_empty_tiles_positions(grid)==[]
