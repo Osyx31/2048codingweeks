@@ -45,13 +45,13 @@ def grid_add_new_tile(grid):
     return grid
 
 def init_game(n):
-    grid=create_grid(4)
+    grid=create_grid(n)
     grid=grid_add_new_tile(grid)
     grid=grid_add_new_tile(grid)
     return grid
 
 def grid_to_string(grid,n):
-    a=""""""
+    a=""
     for i in range(n):
         a+=" ==="
     a+=" /n"
@@ -66,17 +66,17 @@ def grid_to_string(grid,n):
 
 def grid_to_string_with_size(grid,n):
     m=longvalue(grid)
-    a=""""""
+    a=""
     for i in range(n):
         a+=" " +(m)*"="
-    a+=" /n"
+    a+=" \n"
     for j in range(n):
         for i in range(n):
-            a+="|" + (m-len(str(grid[j][i]))//2 + m-len(str(grid[j][i]))%2)*" "+ str(grid[j][i]) +(m-len(str(grid[j][i]))//2)* " "
-        a+="|/n"
+            a+="|" + ((m-len(str(grid[j][i])))//2 + (m-len(str(grid[j][i])))%2)*" "+ str(grid[j][i]) +((m-len(str(grid[j][i])))//2)* " "
+        a+="|\n"
         for i in range(n):
             a+=" "+ (m)*"="
-        a+=" /n"
+        a+=" \n"
     return a
 
 def longvalue(grid):
@@ -93,23 +93,27 @@ def long_value_with_theme(grid,theme):
     longueur=0
     for i in range(n):
         for j in range(n):
-            if len(theme[grid[i][j]])>longueur:
-                longueur=len(theme[grid[i][j]])
+            if grid[i][j]!=' ':
+                if len(theme[grid[i][j]])>longueur:
+                    longueur=len(theme[grid[i][j]])
     return longueur
 
 def grid_to_string_with_size_and_theme(grid,theme,n):
     m=long_value_with_theme(grid,theme)
-    a=""""""
+    a=""
     for i in range(n):
         a+=" " +(m)*"="
-    a+=" /n"
+    a+=" \n"
     for j in range(n):
         for i in range(n):
-            a+="|" + ((m-len(str(grid[j][i])))//2 )*" "+ theme[grid[j][i]] +((m-len(str(grid[j][i])))//2+ (m-len(str(grid[j][i])))%2)* " "
-        a+="|/n"
+            if grid[j][i]!=' ':
+                a+="|" + ((m-len(theme[grid[j][i]]))//2 )*" "+ theme[grid[j][i]] +((m-len(theme[grid[j][i]]))//2+ (m-len(theme[grid[j][i]]))%2)* " "
+            else:
+                a+="|" + ((m-len(theme[0]))//2 )*" "+ theme[0] +((m-len(theme[0]))//2+ (m-len(theme[0]))%2)* " "
+        a+="|\n"
         for i in range(n):
             a+=" "+ (m)*"="
-        a+=" /n"
+        a+=" \n"
     return a
 
 def read_player_command():
@@ -126,7 +130,7 @@ def read_size_grid():
 
 def read_theme_grid():
     theme = input("choisissez le theme (Defaut : 0, chemistry : 1, alphabet : 2):")
-    return theme
+    return THEMES[str(theme)]
 
 def test_is_full_grid(grid):
     return get_empty_tiles_positions(grid)==[]

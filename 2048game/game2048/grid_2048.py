@@ -44,4 +44,29 @@ def rota(grid):
 
     return(rot)
 
+def move_grid(grid,d):
+    n=len(grid)
+    if d=="left":
+        for i in range(n):
+            grid[i]=move_row_left(grid[i])
+    else:
+        if d=="right":
+            for i in range(n):
+                grid[i]=move_row_right(grid[i])
+        else:
+            grid=rota(grid)
+            if d=="up":
+                for i in range(n):
+                    grid[i]=move_row_left(grid[i])
+            else:
+                if d=="down":
+                    for i in range(n):
+                        grid[i]=move_row_right(grid[i])
+            grid=rota(grid)
+    return grid
+
+
+
+
+
 
