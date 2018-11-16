@@ -14,6 +14,10 @@ from game2048.tile import grid_to_string_with_size
 from game2048.tile import THEMES
 from game2048.tile import long_value_with_theme
 from game2048.tile import grid_to_string_with_size_and_theme
+from game2048.tile import move_possible
+from game2048.grid_2048 import move_row_left
+from game2048.grid_2048 import move_row_right
+
 
 def test_create_grid():
     assert create_grid(4) ==[[' ',' ',' ',' '],[' ',' ',' ',' '],[' ',' ',' ',' '],[' ',' ',' ',' ']]
@@ -87,19 +91,35 @@ def test_long_value_with_theme():
     assert long_value_with_theme(grid,THEMES["1"]) == 2
     assert long_value_with_theme(grid,THEMES["2"]) == 1
 
-def test_grid_to_string_with_size_and_theme():
-    grid=[[16, 4, 8, 2], [2, 4, 2, 128], [4, 512, 32, 64], [1024, 2048, 512, 2]]
-    a="""
- == == == ==
-|Be|He|Li|H |
- == == == ==
-|H |He|H |N |
- == == == ==
-|He|F |B |C |
- == == == ==
-|Ne|Na|F |H |
- == == == ==
-"""
-    assert grid_to_string_with_size_and_theme(grid,THEMES["1"],4)== a[1:]
+def test_move_possible():
+    assert move_possible([[2, 2, 2, 2], [4, 8, 8, 16], [0, 8, 0, 4], [4, 8, 16, 32]]) == [True,True,True,True]
+    assert move_possible([[2, 4, 8, 16], [16, 8, 4, 2], [2, 4, 8, 16], [16, 8, 4, 2]]) == [False,False,False,False]
+
+def test_move_row_left():
+
+    assert move_row_left([0, 0, 0, 2]) == [2, 0, 0, 0]
+    assert move_row_left([0, 2, 0, 4]) == [2, 4, 0, 0]
+    assert move_row_left([2, 2, 0, 4]) == [4, 4, 0, 0]
+    assert move_row_left([2, 2, 2, 2]) == [4, 4, 0, 0]
+    assert move_row_left([4, 2, 0, 2]) == [4, 4, 0, 0]
+    assert move_row_left([2, 0, 0, 2]) == [4, 0, 0, 0]
+    assert move_row_left([2, 4, 2, 2]) == [2, 4, 4, 0]
+    assert move_row_left([2, 4, 4, 0]) == [2, 8, 0, 0]
+    assert move_row_left([4, 8, 16, 32]) == [4, 8, 16, 32]
+
+def test_move_row_right():
+
+    assert move_row_right([2, 0, 0, 0]) == [0, 0, 0, 2]
+    assert move_row_right([0, 2, 0, 4]) == [0, 0, 2, 4]
+    assert move_row_right([2, 2, 0, 4]) == [0, 0, 4, 4]
+    assert move_row_right([2, 2, 2, 2]) == [0, 0, 4, 4]
+    assert move_row_right([4, 2, 0, 2]) == [0, 0, 4, 4]
+    assert move_row_right([2, 0, 0, 2]) == [0, 0, 0, 4]
+    assert move_row_right([2, 4, 2, 2]) == [0, 2, 4, 4]
+    assert move_row_right([2, 4, 4, 0]) == [0, 0, 2, 8]
+    assert move_row_right([4, 8, 16, 32]) == [4, 8, 16, 32]
+
+
+
 
 

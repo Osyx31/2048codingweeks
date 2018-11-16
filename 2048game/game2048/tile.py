@@ -130,3 +130,49 @@ def read_theme_grid():
 
 def test_is_full_grid(grid):
     return get_empty_tiles_positions(grid)==[]
+
+def move_possible(grid):
+    n=len(grid)
+    out=[False,False,False,False]  #[droite,gauche,bas,haut]
+    for i in range(n):
+        for j in range(n-1):
+            if grid[i][j]!=0 and grid[i][j]!='':
+                if grid[i][j+1] in [0,''] or grid[i][j+1]==grid[i][j]:
+                    out[0]=True
+    for i in range(n):
+        for j in range(1,n):
+            if grid[i][j]!=0 and grid[i][j]!='':
+                if grid[i][j-1] in [0,''] or grid[i][j-1]==grid[i][j]:
+                    out[1]=True
+    for i in range(n-1):
+        for j in range(n):
+            if grid[i][j]!=0 and grid[i][j]!='':
+                if grid[i+1][j] in [0,''] or grid[i+1][j]==grid[i][j]:
+                    out[2]=True
+    for i in range(1,n):
+        for j in range(n):
+            if grid[i][j]!=0 and grid[i][j]!='':
+                if grid[i-1][j] in [0,''] or grid[i-1][j]==grid[i][j]:
+                    out[3]=True
+    return out
+
+def is_game_over(grid):
+    return move_possible(grid)==[False,False,False,False]
+
+def get_grid_tile_max(grid):
+    max=0
+    n=len(grid)
+    for i in range(n):
+        for j in range(n):
+            if grid[i][j]>max:
+                max = grid[i][j]
+    return max
+
+
+
+
+
+
+
+
+
